@@ -11,10 +11,27 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs {
+        release {
+            File releasekeySettings = new File(".keystore/settings.properties")
+            if(releasekeySettings.exists()) {
+                Properties keyProps = new Properties()
+                keyProps.load(new FileInputStream(releasekeySettings))
+
+                storeFile file(keyProps['storeFilePath'])
+                storePassword keyProps['storePassword']
+                keyAlias keyProps['keyAlias']
+                keyPassword keyProps['keyPassword']
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
