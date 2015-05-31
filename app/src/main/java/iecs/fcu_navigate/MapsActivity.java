@@ -1,35 +1,54 @@
 package iecs.fcu_navigate;
 
+import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MapsActivity extends ActionBarActivity
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks,
+                   GoogleApiClient.ConnectionCallbacks,
+                   GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+
+    private GoogleApiClient mGoogleApiClient;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
+    /**
+     * Flag，當 GoogleApiClient connect 上時，是否要使Map移動到目前位置。
+     */
+    private boolean moveToMyLocOnConnent = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        buildGoogleApiClient();
         setUpMapIfNeeded();
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -39,12 +58,40 @@ public class MapsActivity extends ActionBarActivity implements NavigationDrawerF
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        moveToMyLocOnConnent = true;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+
+        // 連線到Google API用戶端
+        if (!mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//
+////        // 移除位置請求服務
+////        if (mGoogleApiClient.isConnected()) {
+//////            LocationServices.FusedLocationApi.removeLocationUpdates(
+//////                    mGoogleApiClient, this);
+////        }
+//    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // 移除Google API用戶端連線
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
     }
 
     /**
@@ -82,7 +129,20 @@ public class MapsActivity extends ActionBarActivity implements NavigationDrawerF
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        //先不標記
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+
+        mMap.setMyLocationEnabled(true);
+
+
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
     }
 
     @Override
@@ -110,4 +170,40 @@ public class MapsActivity extends ActionBarActivity implements NavigationDrawerF
 
     }
 
+    @Override
+    public void onConnected(Bundle bundle) {
+        if (moveToMyLocOnConnent) {
+            moveToMyLocOnConnent = false;
+            moveToLastKnownLocation();
+        }
+    }
+
+    private void moveToLastKnownLocation() {
+        Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (lastLocation != null) {
+            LatLng place = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+
+            // 建立地圖攝影機的位置物件
+            CameraPosition cameraPosition =
+                    new CameraPosition.Builder()
+                            .target(place)
+                            .zoom(17)
+                            .build();
+
+            // 使用動畫的效果移動地圖
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG);
+        Log.e("GoogleApiClient", String.format("onConnectionSuspended(code: %d)", i));
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG);
+        Log.e("GoogleApiClient", connectionResult.toString());
+    }
 }
