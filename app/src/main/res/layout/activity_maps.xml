@@ -17,6 +17,22 @@
             class="com.google.android.gms.maps.SupportMapFragment"
             android:layout_gravity="center" />
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="128dp"
+            android:layout_height="109dp"
+            android:layout_gravity="right|bottom"
+            android:weightSum="1">
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/imageButton2"
+                android:layout_gravity="center"
+                android:padding="0dp" />
+
+        </LinearLayout>
+
     </FrameLayout>
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat
