@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,13 +23,17 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
 public class MapsActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks,
-                   GoogleApiClient.ConnectionCallbacks,
-                   GoogleApiClient.OnConnectionFailedListener {
+                          implements NavigationDrawerFragment.NavigationDrawerCallbacks,
+                                     GoogleApiClient.ConnectionCallbacks,
+                                     GoogleApiClient.OnConnectionFailedListener,
+                                     LocationListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
     private GoogleApiClient mGoogleApiClient;
+
+    // Location請求物件
+    private LocationRequest locationRequest;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -44,6 +50,7 @@ public class MapsActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         buildGoogleApiClient();
+        configLocationRequest();
         setUpMapIfNeeded();
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -68,16 +75,16 @@ public class MapsActivity extends ActionBarActivity
         }
     }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//
-////        // 移除位置請求服務
-////        if (mGoogleApiClient.isConnected()) {
-//////            LocationServices.FusedLocationApi.removeLocationUpdates(
-//////                    mGoogleApiClient, this);
-////        }
-//    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // 移除位置請求服務
+        if (mGoogleApiClient.isConnected()) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(
+                    mGoogleApiClient, this);
+        }
+    }
 
     @Override
     protected void onStop() {
@@ -140,6 +147,17 @@ public class MapsActivity extends ActionBarActivity
                 .build();
     }
 
+    // 建立Location請求物件
+    private void configLocationRequest() {
+        locationRequest = new LocationRequest();
+        // 設定讀取位置資訊的間隔時間為一秒（1000ms）
+        locationRequest.setInterval(1000);
+        // 設定讀取位置資訊最快的間隔時間為一秒（1000ms）
+        locationRequest.setFastestInterval(1000);
+        // 設定優先讀取高精確度的位置資訊（GPS）
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -174,6 +192,9 @@ public class MapsActivity extends ActionBarActivity
             moveToMyLocOnConnent = false;
             moveToLastKnownLocation();
         }
+
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                mGoogleApiClient, locationRequest, MapsActivity.this);
     }
 
     private void moveToLastKnownLocation() {
@@ -203,5 +224,15 @@ public class MapsActivity extends ActionBarActivity
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Toast.makeText(getApplicationContext(), getString(R.string.onConnectionFailed_message), Toast.LENGTH_LONG).show();
         Log.e("GoogleApiClient", connectionResult.toString());
+        //TODO: 可能是沒有安裝Google Play服務
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        TextView textView = (TextView) findViewById(R.id.textView);
+
+        textView.setText(String.format("(%f, %f)", location.getLatitude(), location.getLongitude()));
+
     }
 }
