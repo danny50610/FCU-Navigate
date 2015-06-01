@@ -197,13 +197,13 @@ public class MapsActivity extends ActionBarActivity
 
     @Override
     public void onConnectionSuspended(int i) {
-        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG);
+        Toast.makeText(getApplicationContext(), getString(R.string.onConnectionSuspended_message), Toast.LENGTH_LONG).show();
         Log.e("GoogleApiClient", String.format("onConnectionSuspended(code: %d)", i));
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG);
+        Toast.makeText(getApplicationContext(), getString(R.string.onConnectionFailed_message), Toast.LENGTH_LONG).show();
         Log.e("GoogleApiClient", connectionResult.toString());
     }
 }
