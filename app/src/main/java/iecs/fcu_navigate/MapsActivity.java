@@ -1,18 +1,14 @@
 package iecs.fcu_navigate;
 
 import android.location.Location;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.InflateException;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -23,7 +19,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
@@ -155,8 +150,17 @@ public class MapsActivity extends ActionBarActivity
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        //actionBar.setTitle(mTitle);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(R.layout.custom_action_bar);
+
+        //TODO: This is TEST code.
+        TextView title = (TextView) findViewById(R.id.action_bar_textview);
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Click Test", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
