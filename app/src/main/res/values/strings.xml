@@ -8,5 +8,9 @@
     <!-- GoogleApiClient Event -->
     <string name="onConnectionSuspended_message">Google 服務中斷</string>
     <string name="onConnectionFailed_message">Google 服務啟動失敗</string>
+    <string name="title_activity_marker_selector">MarkerSelectorActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

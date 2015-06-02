@@ -1,5 +1,6 @@
 package iecs.fcu_navigate;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -176,7 +177,11 @@ public class MapsActivity extends ActionBarActivity
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Click Test", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Click Test", Toast.LENGTH_LONG).show();
+                startActivity(new Intent().setClass(
+                        MapsActivity.this,
+                        MarkerSelectorActivity.class
+                ));
             }
         });
     }
