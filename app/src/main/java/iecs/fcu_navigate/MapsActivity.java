@@ -22,6 +22,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends ActionBarActivity
                           implements NavigationDrawerFragment.NavigationDrawerCallbacks,
@@ -135,8 +137,20 @@ public class MapsActivity extends ActionBarActivity
         //先不標記
         //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
 
+        mMap.addMarker(new MarkerOptions().position(new LatLng(24.178383, 120.649762)).title("Test_Marker"));
+
         mMap.setMyLocationEnabled(true);
 
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                startActivity(new Intent().setClass(
+                        MapsActivity.this,
+                        MarkerInfoActivity.class
+                ));
+                return false;
+            }
+        });
 
     }
 

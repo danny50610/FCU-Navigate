@@ -40,6 +40,10 @@
             android:name=".MarkerSelectorActivity"
             android:label="@string/title_activity_marker_selector" >
         </activity>
+        <activity
+            android:name=".MarkerInfoActivity"
+            android:label="@string/title_activity_marker_info" >
+        </activity>
     </application>
 
 </manifest>
