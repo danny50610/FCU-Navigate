@@ -16,19 +16,9 @@ public class MarkerSelectorActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marker_selector);
 
-        ListView view = (ListView) findViewById(R.id.category_listView);
-
-        view.setAdapter(new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                new String[] {
-                        "Test",
-                        "Test2",
-                        "Test3"
-                }
-        ));
-
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_list, new ListFragment())
+                .commit();
     }
 
     @Override
