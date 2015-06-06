@@ -202,7 +202,18 @@ public class MapsActivity extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
+        switch (position) {
+            case 0:
+                //尋找地點
+                break;
+            case 1:
 
+                break;
+            case 2:
+                //前往逢甲
+                gotoLocation(new LatLng(24.179916, 120.648304));
+                break;
+        }
     }
 
     @Override
@@ -219,18 +230,20 @@ public class MapsActivity extends ActionBarActivity
     private void moveToLastKnownLocation() {
         Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (lastLocation != null) {
-            LatLng place = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-
-            // 建立地圖攝影機的位置物件
-            CameraPosition cameraPosition =
-                    new CameraPosition.Builder()
-                            .target(place)
-                            .zoom(17)
-                            .build();
-
-            // 使用動畫的效果移動地圖
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            gotoLocation(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
         }
+    }
+
+    public void gotoLocation(LatLng place) {
+        // 建立地圖攝影機的位置物件，似乎 17 才看得到建物
+        CameraPosition cameraPosition =
+                new CameraPosition.Builder()
+                        .target(place)
+                        .zoom(17)
+                        .build();
+
+        // 使用動畫的效果移動地圖
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     @Override
