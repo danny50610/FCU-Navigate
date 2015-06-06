@@ -15,4 +15,9 @@
     <string name="action_search">搜尋</string>
     <string name="title_activity_marker_info">MarkerInfoActivity</string>
 
+    <!-- 側邊選單 -->
+    <string name="menu_search">尋找地點</string>
+    <string name="menu_history">最近使用的地點</string>
+    <string name="menu_goto_fcu">前往逢甲</string>
+
 </resources>
