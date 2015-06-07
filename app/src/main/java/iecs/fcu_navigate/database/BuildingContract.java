@@ -56,6 +56,25 @@ public final class BuildingContract {
         return result;
     }
 
+    public static String getNamebyId(SQLiteDatabase db, long id) {
+        Cursor c = db.query(
+                BuildingEntry.TABLE_NAME,                     //table
+                new String[]{BuildingEntry.COLUMN_NAME_NAME}, //columns
+                BuildingEntry._ID + "= ?",                    //selection
+                new String[] {Long.toString(id)},             //selectionArgs
+                null,                                         //groupBy
+                null,                                         //having
+                BuildingEntry._ID + " ASC"                    //orderBy
+        );
+
+        String result = "";
+        if (c.moveToFirst()) {
+            result = c.getString(c.getColumnIndexOrThrow(BuildingEntry.COLUMN_NAME_NAME));
+        }
+
+        return result;
+    }
+
     public static abstract class BuildingEntry implements BaseColumns {
         public static final String TABLE_NAME = "building";
         public static final String COLUMN_NAME_NAME = "name";

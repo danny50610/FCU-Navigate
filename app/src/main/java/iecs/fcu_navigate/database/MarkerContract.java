@@ -1,8 +1,11 @@
 package iecs.fcu_navigate.database;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
+
+import java.io.Serializable;
 
 public final class MarkerContract {
 
@@ -51,6 +54,37 @@ public final class MarkerContract {
         }
     }
 
+    public static Item[] getItembyCategory(MarkerDBHelper dbHelper, String categoryName) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor c = db.query(
+                MarkerEntry.TABLE_NAME,                                                   //table
+                null,                                                                     //columns
+                MarkerEntry.COLUMN_NAME_CATEGORY_ID + "= ?",                              //selection
+                new String[]{Long.toString(CategoryContract.getID(db, categoryName))}, //selectionArgs
+                null,                                                                     //groupBy
+                null,                                                                     //having
+                MarkerEntry._ID + " ASC"                                                  //orderBy
+        );
+
+        int i = 0;
+        Item[] result = new Item[c.getCount()];
+        while (c.moveToNext()) {
+            result[i++] = new Item(
+                    categoryName,
+                    c.getString(2),
+                    BuildingContract.getNamebyId(db, c.getLong(3)),
+                    c.getInt(4),
+                    c.getString(5),
+                    c.getDouble(6),
+                    c.getDouble(7),
+                    c.getString(8)
+            );
+        }
+
+        return result;
+    }
+
     public static abstract class MarkerEntry implements BaseColumns {
         public static final String TABLE_NAME = "marker";
         public static final String COLUMN_NAME_CATEGORY_ID = "category_id";
@@ -63,7 +97,7 @@ public final class MarkerContract {
         public static final String COLUMN_IMAGE_NAME = "image_name";
     }
 
-    public static class Item {
+    public static class Item implements Serializable {
         private String category_name;
         private String name;
         private String building_name;

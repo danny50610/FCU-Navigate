@@ -25,6 +25,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
+import iecs.fcu_navigate.database.MarkerContract;
 import iecs.fcu_navigate.database.MarkerDBHelper;
 
 public class MapsActivity extends ActionBarActivity
@@ -49,6 +52,8 @@ public class MapsActivity extends ActionBarActivity
      * Flag，當 GoogleApiClient connect 上時，是否要使Map移動到目前位置。
      */
     private boolean moveToMyLocOnConnent = false;
+
+    private ArrayList<Marker> mMarkers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +84,29 @@ public class MapsActivity extends ActionBarActivity
         // 連線到Google API用戶端
         if (!mGoogleApiClient.isConnected()) {
             mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1 && resultCode == 1) {
+            Bundle args = data.getExtras();
+            Object obj = args.getSerializable("Item");
+            if (obj != null) {
+                MarkerContract.Item item = (MarkerContract.Item) obj;
+
+                for (Marker marker : mMarkers) {
+                    marker.remove();
+                }
+                mMarkers.clear();
+
+                LatLng place = new LatLng(item.getLatitude(), item.getLongitude());
+                mMarkers.add(mMap.addMarker(new MarkerOptions().position(place).title(item.getName())));
+                gotoLocation(place);
+            }
+        }
+        else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -141,7 +169,7 @@ public class MapsActivity extends ActionBarActivity
         //先不標記
         //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
 
-        mMap.addMarker(new MarkerOptions().position(new LatLng(24.178383, 120.649762)).title("Test_Marker"));
+//        mMap.addMarker(new MarkerOptions().position(new LatLng(24.178383, 120.649762)).title("Test_Marker"));
 
         mMap.setMyLocationEnabled(true);
 
@@ -190,16 +218,11 @@ public class MapsActivity extends ActionBarActivity
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(R.layout.custom_action_bar);
 
-        //TODO: This is TEST code.
         TextView title = (TextView) findViewById(R.id.action_bar_textview);
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), "Click Test", Toast.LENGTH_LONG).show();
-                startActivity(new Intent().setClass(
-                        MapsActivity.this,
-                        MarkerSelectorActivity.class
-                ));
+                switchToSelectActivity();
             }
         });
     }
@@ -209,10 +232,7 @@ public class MapsActivity extends ActionBarActivity
         switch (position) {
             case 0:
                 //尋找地點
-                startActivity(new Intent().setClass(
-                        MapsActivity.this,
-                        MarkerSelectorActivity.class
-                ));
+
                 break;
             case 1:
 
@@ -252,6 +272,13 @@ public class MapsActivity extends ActionBarActivity
 
         // 使用動畫的效果移動地圖
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
+
+    public void switchToSelectActivity() {
+        startActivityForResult(new Intent().setClass(
+                MapsActivity.this,
+                MarkerSelectorActivity.class
+        ), 1);
     }
 
     @Override
