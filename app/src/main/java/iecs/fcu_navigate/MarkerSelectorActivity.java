@@ -5,26 +5,28 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.AdapterView;
 
 import iecs.fcu_navigate.database.CategoryContract;
 import iecs.fcu_navigate.database.MarkerDBHelper;
 
 
-public class MarkerSelectorActivity extends ActionBarActivity {
+public class MarkerSelectorActivity extends ActionBarActivity
+                                    implements ListFragment.onItemClickCallBacks {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marker_selector);
 
-        ListFragment listFragment = new ListFragment();
         Bundle args = new Bundle();
         args.putStringArray(
                 ListFragment.Bundle_KEY_String_List,
                 CategoryContract.getAllCategoryName(MarkerDBHelper.instance)
         );
+
+        ListFragment listFragment = new ListFragment();
         listFragment.setArguments(args);
 
         getSupportFragmentManager().beginTransaction()
@@ -54,5 +56,15 @@ public class MarkerSelectorActivity extends ActionBarActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ListFragment subListFragment = new ListFragment();
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_list, subListFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
