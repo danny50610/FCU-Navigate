@@ -8,6 +8,9 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import iecs.fcu_navigate.database.CategoryContract;
+import iecs.fcu_navigate.database.MarkerDBHelper;
+
 
 public class MarkerSelectorActivity extends ActionBarActivity {
 
@@ -16,8 +19,16 @@ public class MarkerSelectorActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marker_selector);
 
+        ListFragment listFragment = new ListFragment();
+        Bundle args = new Bundle();
+        args.putStringArray(
+                ListFragment.Bundle_KEY_String_List,
+                CategoryContract.getAllCategoryName(MarkerDBHelper.instance)
+        );
+        listFragment.setArguments(args);
+
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_list, new ListFragment())
+                .add(R.id.fragment_list, listFragment)
                 .commit();
     }
 

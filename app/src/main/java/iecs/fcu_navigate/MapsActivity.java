@@ -25,6 +25,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import iecs.fcu_navigate.database.MarkerDBHelper;
+
 public class MapsActivity extends ActionBarActivity
                           implements NavigationDrawerFragment.NavigationDrawerCallbacks,
                                      GoogleApiClient.ConnectionCallbacks,
@@ -65,6 +67,8 @@ public class MapsActivity extends ActionBarActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         moveToMyLocOnConnent = true;
+
+        MarkerDBHelper.initialize(getApplicationContext());
     }
 
     @Override

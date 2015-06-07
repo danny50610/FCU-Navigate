@@ -10,17 +10,29 @@ public class MarkerDBHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "Marker.db";
 
-    public MarkerDBHelper(Context context) {
+    public static MarkerDBHelper instance = null;
+
+    public static void initialize(Context context) {
+        if (instance == null) {
+            instance = new MarkerDBHelper(context);
+        }
+    }
+
+    private MarkerDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL(CategoryContract.SQL_CREATE_ENTRIES);
 
+        CategoryContract.insertDefaultData(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        //TODO: 先方便起見，刪除所有舊資料表
+        db.execSQL(CategoryContract.SQL_DELETE_ENTRIES);
+        onCreate(db);
     }
 }

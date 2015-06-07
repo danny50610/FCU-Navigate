@@ -18,8 +18,10 @@ public class ListFragment extends Fragment {
 
         ListView listView = (ListView)view.findViewById(R.id.listView);
         String[] arr = new String[]{"無"};
-        if (savedInstanceState != null) {
-            savedInstanceState.getStringArray(Bundle_KEY_String_List);
+
+        Bundle args = this.getArguments();
+        if (args != null) {
+            arr = args.getStringArray(Bundle_KEY_String_List);
         }
 
         ArrayAdapter<String> adapter =
