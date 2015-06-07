@@ -209,6 +209,10 @@ public class MapsActivity extends ActionBarActivity
         switch (position) {
             case 0:
                 //尋找地點
+                startActivity(new Intent().setClass(
+                        MapsActivity.this,
+                        MarkerSelectorActivity.class
+                ));
                 break;
             case 1:
 
