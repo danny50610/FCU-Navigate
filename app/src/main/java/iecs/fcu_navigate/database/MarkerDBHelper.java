@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MarkerDBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     public static final String DATABASE_NAME = "Marker.db";
 
@@ -25,14 +25,17 @@ public class MarkerDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CategoryContract.SQL_CREATE_ENTRIES);
+        db.execSQL(BuildingContract.SQL_CREATE_ENTRIES);
 
         CategoryContract.insertDefaultData(db);
+        BuildingContract.insertDefaultData(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //TODO: 先方便起見，刪除所有舊資料表
         db.execSQL(CategoryContract.SQL_DELETE_ENTRIES);
+        db.execSQL(BuildingContract.SQL_DELETE_ENTRIES);
         onCreate(db);
     }
 }
