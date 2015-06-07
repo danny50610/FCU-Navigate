@@ -58,6 +58,25 @@ public final class CategoryContract {
         return result;
     }
 
+    public static long getID(SQLiteDatabase db, String name) {
+        Cursor c = db.query(
+                CategoryEntry.TABLE_NAME,                                          //table
+                new String[] {CategoryEntry._ID, CategoryEntry.COLUMN_NAME_NAME},  //columns
+                CategoryEntry.COLUMN_NAME_NAME + "= ?",                            //selection
+                new String[] {name},                                               //selectionArgs
+                null,                                                              //groupBy
+                null,                                                              //having
+                CategoryEntry._ID + " ASC"                                         //orderBy
+        );
+
+        long result = 0;
+        if (c.moveToFirst()) {
+            result = c.getInt(c.getColumnIndexOrThrow(CategoryEntry._ID));
+        }
+
+        return result;
+    }
+
     public static abstract class CategoryEntry implements BaseColumns {
         public static final String TABLE_NAME = "category";
         public static final String COLUMN_NAME_NAME = "name";

@@ -1,6 +1,7 @@
 package iecs.fcu_navigate.database;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
@@ -34,6 +35,25 @@ public final class BuildingContract {
 
             db.insert(BuildingEntry.TABLE_NAME, null, values);
         }
+    }
+
+    public static long getID(SQLiteDatabase db, String name) {
+        Cursor c = db.query(
+                BuildingEntry.TABLE_NAME,                                          //table
+                new String[]{BuildingEntry._ID, BuildingEntry.COLUMN_NAME_NAME},   //columns
+                BuildingEntry.COLUMN_NAME_NAME + "= ?",                            //selection
+                new String[] {name},                                               //selectionArgs
+                null,                                                              //groupBy
+                null,                                                              //having
+                BuildingEntry._ID + " ASC"                                         //orderBy
+        );
+
+        long result = 0;
+        if (c.moveToFirst()) {
+            result = c.getLong(c.getColumnIndexOrThrow(BuildingEntry._ID));
+        }
+
+        return result;
     }
 
     public static abstract class BuildingEntry implements BaseColumns {

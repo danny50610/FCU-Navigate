@@ -3,6 +3,7 @@ package iecs.fcu_navigate.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class MarkerDBHelper extends SQLiteOpenHelper {
 
@@ -26,9 +27,11 @@ public class MarkerDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CategoryContract.SQL_CREATE_ENTRIES);
         db.execSQL(BuildingContract.SQL_CREATE_ENTRIES);
+        db.execSQL(MarkerContract.SQL_CREATE_ENTRIES);
 
         CategoryContract.insertDefaultData(db);
         BuildingContract.insertDefaultData(db);
+        MarkerContract.insertDefaultData(db);
     }
 
     @Override
@@ -36,6 +39,7 @@ public class MarkerDBHelper extends SQLiteOpenHelper {
         //TODO: 先方便起見，刪除所有舊資料表
         db.execSQL(CategoryContract.SQL_DELETE_ENTRIES);
         db.execSQL(BuildingContract.SQL_DELETE_ENTRIES);
+        db.execSQL(MarkerContract.SQL_DELETE_ENTRIES);
         onCreate(db);
     }
 }
