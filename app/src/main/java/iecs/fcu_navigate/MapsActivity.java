@@ -26,6 +26,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import iecs.fcu_navigate.database.MarkerContract;
 import iecs.fcu_navigate.database.MarkerDBHelper;
@@ -34,6 +36,7 @@ public class MapsActivity extends ActionBarActivity
                           implements NavigationDrawerFragment.NavigationDrawerCallbacks,
                                      GoogleApiClient.ConnectionCallbacks,
                                      GoogleApiClient.OnConnectionFailedListener,
+                                     GoogleMap.OnMarkerClickListener,
                                      LocationListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -54,6 +57,8 @@ public class MapsActivity extends ActionBarActivity
     private boolean moveToMyLocOnConnent = false;
 
     private ArrayList<Marker> mMarkers = new ArrayList<>();
+
+    private Map<String, MarkerContract.Item> mMarkerInfos = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +105,13 @@ public class MapsActivity extends ActionBarActivity
                 }
                 mMarkers.clear();
 
+                mMarkerInfos.clear();
+
                 LatLng place = new LatLng(item.getLatitude(), item.getLongitude());
-                mMarkers.add(mMap.addMarker(new MarkerOptions().position(place).title(item.getName())));
+                Marker marker = mMap.addMarker(new MarkerOptions().position(place).title(item.getName()));
+                mMarkers.add(marker);
+                mMarkerInfos.put(marker.getId(), item);
+
                 gotoLocation(place);
             }
         }
@@ -169,21 +179,9 @@ public class MapsActivity extends ActionBarActivity
         //先不標記
         //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
 
-//        mMap.addMarker(new MarkerOptions().position(new LatLng(24.178383, 120.649762)).title("Test_Marker"));
-
         mMap.setMyLocationEnabled(true);
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                startActivity(new Intent().setClass(
-                        MapsActivity.this,
-                        MarkerInfoActivity.class
-                ));
-                return false;
-            }
-        });
-
+        mMap.setOnMarkerClickListener(this);
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -300,6 +298,17 @@ public class MapsActivity extends ActionBarActivity
         TextView textView = (TextView) findViewById(R.id.textView);
 
         textView.setText(String.format("(%f, %f)", location.getLatitude(), location.getLongitude()));
+    }
 
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Bundle args = new Bundle();
+        args.putSerializable("Item", mMarkerInfos.get(marker.getId()));
+
+        startActivity(new Intent().putExtras(args).setClass(
+                MapsActivity.this,
+                MarkerInfoActivity.class
+        ));
+        return false;
     }
 }
