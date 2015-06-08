@@ -232,7 +232,7 @@ public class MapsActivity extends ActionBarActivity
         switch (position) {
             case 0:
                 //尋找地點
-
+                switchToSelectActivity();
                 break;
             case 1:
 
