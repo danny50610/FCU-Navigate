@@ -6,13 +6,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.Map;
 
 public final class MarkerContract {
@@ -30,8 +28,8 @@ public final class MarkerContract {
             MarkerEntry.COLUMN_NAME_FLOOR          + INTEGER_TYPE + COMMA_SEP +
             MarkerEntry.COLUMN_NAME_LATITUDE       + REAL_TYPE    + COMMA_SEP +
             MarkerEntry.COLUMN_NAME_LONGITUDE      + REAL_TYPE    + COMMA_SEP +
-            MarkerEntry.COLUMN_IMAGE_NAME          + TEXT_TYPE    + COMMA_SEP +
-            MarkerEntry.COLUMN_CUSTOM              + TEXT_TYPE    + COMMA_SEP +
+            MarkerEntry.COLUMN_NAME_IMAGE_NAME + TEXT_TYPE    + COMMA_SEP +
+            MarkerEntry.COLUMN_NAME_CUSTOM + TEXT_TYPE    + COMMA_SEP +
             "FOREIGN KEY(" + MarkerEntry.COLUMN_NAME_CATEGORY_ID + ")" +
                 " REFERENCES " + CategoryContract.CategoryEntry.TABLE_NAME + "(" + CategoryContract.CategoryEntry._ID +  ")" + COMMA_SEP +
             "FOREIGN KEY(" + MarkerEntry.COLUMN_NAME_BUILDING_ID + ")" +
@@ -102,8 +100,8 @@ public final class MarkerContract {
         public static final String COLUMN_NAME_FLOOR = "floor";
         public static final String COLUMN_NAME_LATITUDE = "latitude";
         public static final String COLUMN_NAME_LONGITUDE = "longitude";
-        public static final String COLUMN_IMAGE_NAME = "image_name";
-        public static final String COLUMN_CUSTOM = "custom";
+        public static final String COLUMN_NAME_IMAGE_NAME = "image_name";
+        public static final String COLUMN_NAME_CUSTOM = "custom";
 
         public static final String CUSTOM_KEY_CLASS_NAME = "class_name";
     }
@@ -174,8 +172,8 @@ public final class MarkerContract {
             values.put(MarkerEntry.COLUMN_NAME_FLOOR, this.floor);
             values.put(MarkerEntry.COLUMN_NAME_LATITUDE, this.latitude);
             values.put(MarkerEntry.COLUMN_NAME_LONGITUDE, this.longitude);
-            values.put(MarkerEntry.COLUMN_IMAGE_NAME, this.image_name);
-            values.put(MarkerEntry.COLUMN_CUSTOM, new Gson().toJson(this.customData));
+            values.put(MarkerEntry.COLUMN_NAME_IMAGE_NAME, this.image_name);
+            values.put(MarkerEntry.COLUMN_NAME_CUSTOM, new Gson().toJson(this.customData));
 
             return values;
         }
