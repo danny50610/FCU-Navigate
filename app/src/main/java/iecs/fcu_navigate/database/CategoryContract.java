@@ -47,10 +47,10 @@ public final class CategoryContract {
         );
 
         int i = 0;
-        int COLUMN_NAME_NAME_INDDX = c.getColumnIndexOrThrow(CategoryEntry.COLUMN_NAME_NAME);
+        int COLUMN_NAME_NAME_INDEX = c.getColumnIndexOrThrow(CategoryEntry.COLUMN_NAME_NAME);
         String[] result = new String[c.getCount()];
         while (c.moveToNext()) {
-            result[i++] = c.getString(COLUMN_NAME_NAME_INDDX);
+            result[i++] = c.getString(COLUMN_NAME_NAME_INDEX);
         }
         c.close();
 
