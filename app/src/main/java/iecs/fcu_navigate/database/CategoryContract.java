@@ -54,6 +54,7 @@ public final class CategoryContract {
         while (c.moveToNext()) {
             result[i++] = c.getString(COLUMN_NAME_NAME_INDDX);
         }
+        c.close();
 
         return result;
     }
@@ -73,6 +74,7 @@ public final class CategoryContract {
         if (c.moveToFirst()) {
             result = c.getInt(c.getColumnIndexOrThrow(CategoryEntry._ID));
         }
+        c.close();
 
         return result;
     }

@@ -88,6 +88,7 @@ public final class MarkerContract {
                     (Map<String, String>) new Gson().fromJson(c.getString(8), stringStringMap)
             );
         }
+        c.close();
 
         return result;
     }

@@ -52,6 +52,7 @@ public final class BuildingContract {
         if (c.moveToFirst()) {
             result = c.getLong(c.getColumnIndexOrThrow(BuildingEntry._ID));
         }
+        c.close();
 
         return result;
     }
@@ -71,6 +72,7 @@ public final class BuildingContract {
         if (c.moveToFirst()) {
             result = c.getString(c.getColumnIndexOrThrow(BuildingEntry.COLUMN_NAME_NAME));
         }
+        c.close();
 
         return result;
     }
