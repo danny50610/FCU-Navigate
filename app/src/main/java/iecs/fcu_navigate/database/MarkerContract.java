@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -44,15 +46,15 @@ public final class MarkerContract {
 
     public static void insertDefaultData(SQLiteDatabase db) {
         Item[] markers = new Item[] {
-            new Item("演講廳", "第一國際會議廳", "丘逢甲紀念館",  2, 24.178355, 120.648098, "", new HashMap<String, String>()),
-            new Item("演講廳", "第二國際會議廳", "丘逢甲紀念館",  3, 24.178351, 120.647988, "", new HashMap<String, String>()),
-            new Item("演講廳", "第三國際會議廳", "資訊電機館"  ,  2, 24.179299, 120.649739, "", new HashMap<String, String>()),
-            new Item("演講廳", "第四國際會議廳", "人言大樓"    , -1, 0.0, 0.0, "", new HashMap<String, String>()),
-            new Item("演講廳", "第五國際會議廳", "人言大樓"    , -1, 0.0, 0.0, "", new HashMap<String, String>()),
-            new Item("演講廳", "第六國際會議廳", "人言大樓"    , -1, 0.0, 0.0, "", new HashMap<String, String>()),
-            new Item("演講廳", "第七國際會議廳", "人言大樓"    , -1, 0.0, 0.0, "", new HashMap<String, String>()),
-            new Item("演講廳", "第八國際會議廳", "商學大樓"    ,  8, 0.0, 0.0, "", new HashMap<String, String>()),
-            new Item("演講廳", "第九國際會議廳", "學思樓"      ,  2, 0.0, 0.0, "", new HashMap<String, String>()),
+            new Item("演講廳", "第一國際會議廳", "丘逢甲紀念館",  2, 24.178355, 120.648098, "", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
+            new Item("演講廳", "第二國際會議廳", "丘逢甲紀念館",  3, 24.178351, 120.647988, "", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
+            new Item("演講廳", "第三國際會議廳", "資訊電機館"  ,  2, 24.179299, 120.649739, "", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
+            new Item("演講廳", "第四國際會議廳", "人言大樓"    , -1, 0.0, 0.0, "", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
+            new Item("演講廳", "第五國際會議廳", "人言大樓"    , -1, 0.0, 0.0, "", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
+            new Item("演講廳", "第六國際會議廳", "人言大樓"    , -1, 0.0, 0.0, "", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
+            new Item("演講廳", "第七國際會議廳", "人言大樓"    , -1, 0.0, 0.0, "", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
+            new Item("演講廳", "第八國際會議廳", "商學大樓"    ,  8, 0.0, 0.0, "", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
+            new Item("演講廳", "第九國際會議廳", "學思樓"      ,  2, 0.0, 0.0, "", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
         };
 
         for (Item marker : markers) {
@@ -67,7 +69,7 @@ public final class MarkerContract {
                 MarkerEntry.TABLE_NAME,                                                   //table
                 null,                                                                     //columns
                 MarkerEntry.COLUMN_NAME_CATEGORY_ID + "= ?",                              //selection
-                new String[]{Long.toString(CategoryContract.getID(db, categoryName))}, //selectionArgs
+                new String[]{Long.toString(CategoryContract.getID(db, categoryName))},    //selectionArgs
                 null,                                                                     //groupBy
                 null,                                                                     //having
                 MarkerEntry._ID + " ASC"                                                  //orderBy
@@ -102,6 +104,8 @@ public final class MarkerContract {
         public static final String COLUMN_NAME_LONGITUDE = "longitude";
         public static final String COLUMN_IMAGE_NAME = "image_name";
         public static final String COLUMN_CUSTOM = "custom";
+
+        public static final String CUSTOM_KEY_CLASS_NAME = "class_name";
     }
 
     public static class Item implements Serializable {
