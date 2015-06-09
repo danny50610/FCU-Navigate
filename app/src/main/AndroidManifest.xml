@@ -44,6 +44,10 @@
             android:name=".MarkerInfoActivity"
             android:label="@string/title_activity_marker_info" >
         </activity>
+        <activity
+            android:name=".NavigateActivity"
+            android:label="@string/title_activity_navigate" >
+        </activity>
     </application>
 
 </manifest>

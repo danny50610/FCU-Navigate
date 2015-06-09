@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,6 +78,17 @@ public class MapsActivity extends ActionBarActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         moveToMyLocOnConnent = true;
+
+        ImageButton navigateButton = (ImageButton) findViewById(R.id.imageButton2);
+        navigateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent().setClass(
+                        MapsActivity.this,
+                        NavigateActivity.class
+                ));
+            }
+        });
 
         MarkerDBHelper.initialize(getApplicationContext());
     }

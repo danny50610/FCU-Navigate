@@ -20,4 +20,10 @@
     <string name="menu_history">最近使用的地點</string>
     <string name="menu_goto_fcu">前往逢甲</string>
 
+    <!-- 導航設定 -->
+    <string name="title_activity_navigate">導航</string>
+    <string name="navigation_origin">出發地</string>
+    <string name="navigation_destinations">目的地</string>
+    <string name="navigation_startProcess">開始導航</string>
+
 </resources>
