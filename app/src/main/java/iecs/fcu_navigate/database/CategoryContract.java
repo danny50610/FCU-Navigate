@@ -5,8 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
-import java.util.ArrayList;
-
 /**
  * 定義地標分類的資料表
  */
