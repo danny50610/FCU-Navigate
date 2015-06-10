@@ -14,7 +14,9 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -23,18 +25,23 @@
                 android:text="@string/navigation_origin"
                 android:id="@+id/textView5" />
 
-            <EditText
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText"
-                android:layout_weight="1" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/textView7"
+                android:layout_weight="0.7"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/textview_box" />
 
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -43,11 +50,15 @@
                 android:text="@string/navigation_destinations"
                 android:id="@+id/textView6" />
 
-            <EditText
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText2"
-                android:layout_weight="1" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/textView8"
+                android:layout_weight="0.7"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/textview_box" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -61,7 +72,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/navigation_startProcess"
                 android:id="@+id/button2" />
+
         </LinearLayout>
+
     </LinearLayout>
 
 </RelativeLayout>
