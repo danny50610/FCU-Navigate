@@ -1,18 +1,19 @@
 package iecs.fcu_navigate;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import iecs.fcu_navigate.database.MarkerContract;
 
 
-public class NavigateActivity extends ActionBarActivity implements TextView.OnClickListener {
+public class NavigateActivity extends ActionBarActivity implements OnClickListener {
 
     TextView mOriginName;
 
@@ -28,6 +29,9 @@ public class NavigateActivity extends ActionBarActivity implements TextView.OnCl
 
         mDestinationName = (TextView) findViewById(R.id.textView8);
         mDestinationName.setOnClickListener(this);
+
+        findViewById(R.id.imageButton).setOnClickListener(this);
+        findViewById(R.id.imageButton3).setOnClickListener(this);
     }
 
     @Override
@@ -70,9 +74,21 @@ public class NavigateActivity extends ActionBarActivity implements TextView.OnCl
 
     @Override
     public void onClick(View v) {
-        startActivityForResult(new Intent().setClass(
-                NavigateActivity.this,
-                MarkerSelectorActivity.class
-        ), (v.getId() == R.id.textView7) ? 0 : 1);
+        switch (v.getId()) {
+            case R.id.textView6:
+            case R.id.textView7:
+                startActivityForResult(new Intent().setClass(
+                        NavigateActivity.this,
+                        MarkerSelectorActivity.class
+                ), (v.getId() == R.id.textView7) ? 0 : 1);
+                break;
+            case R.id.imageButton:
+                mOriginName.setText(getString(R.string.navigation_my_location));
+                break;
+            case R.id.imageButton3:
+                mDestinationName.setText(getString(R.string.navigation_my_location));
+                break;
+        }
+
     }
 }
