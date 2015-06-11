@@ -10,40 +10,42 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.Serializable;
+
 import iecs.fcu_navigate.database.MarkerContract;
 
 public class ListFragment extends Fragment {
 
-    public static final String Bundle_KEY_String_List = "StringList";
+    public static final String Bundle_KEY_LISTVIEW_LEVEL = "ListView_Level";
+
+    public static final String Bundle_KEY_ITEM_List = "ItemList";
 
     private onItemClickCallBacks mCallback;
 
     private int level = 99;
 
-    public MarkerContract.Item[] mItems = null;
+    public ListItem[] mItems = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
         ListView listView = (ListView)view.findViewById(R.id.listView);
-        String[] arr = new String[]{"無"};
 
         Bundle args = this.getArguments();
         if (args != null) {
-            arr = args.getStringArray(Bundle_KEY_String_List);
-            if (arr == null) {
-                arr = new String[]{"無"};
-            }
+            level = args.getInt(Bundle_KEY_LISTVIEW_LEVEL);
 
-            level = args.getInt(MarkerSelectorActivity.Bundle_KEY_LISTVIEW_LEVEL);
-
-            mItems = (MarkerContract.Item[]) args.getSerializable("Items");
+            mItems = (ListItem[]) args.getSerializable(Bundle_KEY_ITEM_List);
         }
 
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(getActivity(),
-                        android.R.layout.simple_list_item_1, arr);
+        if (mItems == null || mItems.length == 0) {
+            mItems = new MarkerContract.Item[]{MarkerContract.ItemNothing};
+        }
+
+        ArrayAdapter<ListItem> adapter =
+                new ArrayAdapter<ListItem>(getActivity(),
+                        android.R.layout.simple_list_item_1, mItems);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -71,5 +73,9 @@ public class ListFragment extends Fragment {
     }
 
     public static interface onItemClickCallBacks extends AdapterView.OnItemClickListener{
+    }
+
+    public static interface ListItem extends Serializable {
+        public boolean isVirtual();
     }
 }

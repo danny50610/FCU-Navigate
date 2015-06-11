@@ -13,6 +13,8 @@ import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Map;
 
+import iecs.fcu_navigate.ListFragment;
+
 public final class MarkerContract {
 
     private static final String TEXT_TYPE = " TEXT";
@@ -38,6 +40,13 @@ public final class MarkerContract {
 
     public static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + MarkerEntry.TABLE_NAME;
+
+    public static final Item ItemNothing = new Item("無", "無", "無",  0, 0.0, 0.0, "", null) {
+        @Override
+        public boolean isVirtual() {
+            return true;
+        }
+    };
 
     public MarkerContract() {
     }
@@ -107,7 +116,7 @@ public final class MarkerContract {
         public static final String CUSTOM_KEY_CLASS_NAME = "class_name";
     }
 
-    public static class Item implements Serializable {
+    public static class Item implements ListFragment.ListItem {
         private String category_name;
         private String name;
         private String building_name;
@@ -164,6 +173,11 @@ public final class MarkerContract {
             return image_name;
         }
 
+        @Override
+        public boolean isVirtual() {
+            return false;
+        }
+
         public ContentValues generateContentValues(SQLiteDatabase db) {
             ContentValues values = new ContentValues();
 
@@ -177,6 +191,11 @@ public final class MarkerContract {
             values.put(MarkerEntry.COLUMN_NAME_CUSTOM, new Gson().toJson(this.customData));
 
             return values;
+        }
+
+        @Override
+        public String toString() {
+            return this.name;
         }
     }
 }

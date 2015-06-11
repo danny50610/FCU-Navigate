@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
+import iecs.fcu_navigate.ListFragment;
+
 /**
  * 定義地標分類的資料表
  */
@@ -33,7 +35,7 @@ public final class CategoryContract {
         }
     }
 
-    public static String[] getAllCategoryName(MarkerDBHelper dbHelper) {
+    public static Item[] getAllCategoryName(MarkerDBHelper dbHelper) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         Cursor c = db.query(
@@ -48,9 +50,9 @@ public final class CategoryContract {
 
         int i = 0;
         int COLUMN_NAME_NAME_INDEX = c.getColumnIndexOrThrow(CategoryEntry.COLUMN_NAME_NAME);
-        String[] result = new String[c.getCount()];
+        Item[] result = new Item[c.getCount()];
         while (c.moveToNext()) {
-            result[i++] = c.getString(COLUMN_NAME_NAME_INDEX);
+            result[i++] = new Item(c.getString(COLUMN_NAME_NAME_INDEX));
         }
         c.close();
 
@@ -80,6 +82,25 @@ public final class CategoryContract {
     public static abstract class CategoryEntry implements BaseColumns {
         public static final String TABLE_NAME = "category";
         public static final String COLUMN_NAME_NAME = "name";
+    }
+
+    public static class Item implements ListFragment.ListItem {
+
+        private String name;
+
+        public Item(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+
+        @Override
+        public boolean isVirtual() {
+            return false;
+        }
     }
 
 }

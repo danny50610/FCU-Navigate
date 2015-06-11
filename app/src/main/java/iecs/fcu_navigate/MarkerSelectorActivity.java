@@ -18,19 +18,14 @@ import iecs.fcu_navigate.database.MarkerDBHelper;
 public class MarkerSelectorActivity extends ActionBarActivity
                                     implements ListFragment.onItemClickCallBacks {
 
-    public static final String Bundle_KEY_LISTVIEW_LEVEL = "ListView_Level";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marker_selector);
 
         Bundle args = new Bundle();
-        args.putInt(Bundle_KEY_LISTVIEW_LEVEL, 1);
-        args.putStringArray(
-                ListFragment.Bundle_KEY_String_List,
-                CategoryContract.getAllCategoryName(MarkerDBHelper.instance)
-        );
+        args.putInt(ListFragment.Bundle_KEY_LISTVIEW_LEVEL, 1);
+        args.putSerializable(ListFragment.Bundle_KEY_ITEM_List, CategoryContract.getAllCategoryName(MarkerDBHelper.instance));
 
         ListFragment listFragment = new ListFragment();
         listFragment.setArguments(args);
@@ -70,25 +65,15 @@ public class MarkerSelectorActivity extends ActionBarActivity
         int level = nowListFragment.getLevel();
         if (level == 1) {
             Bundle args = new Bundle();
-            args.putInt(Bundle_KEY_LISTVIEW_LEVEL, level + 1);
+            args.putInt(ListFragment.Bundle_KEY_LISTVIEW_LEVEL, level + 1);
 
             ListFragment subListFragment = new ListFragment();
             subListFragment.setArguments(args);
 
-            String categoryName = (String) parent.getItemAtPosition(position);
+            String categoryName = parent.getItemAtPosition(position).toString();
             MarkerContract.Item[] items = MarkerContract.getItembyCategory(MarkerDBHelper.instance, categoryName);
 
-            String[] names = new String[items.length];
-            for (int i = 0; i < items.length; i++) {
-                names[i] = items[i].getName();
-            }
-
-            args.putStringArray(
-                    ListFragment.Bundle_KEY_String_List,
-                    names
-            );
-
-            args.putSerializable("Items", items);
+            args.putSerializable(ListFragment.Bundle_KEY_ITEM_List, items);
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_list, subListFragment)
@@ -96,15 +81,22 @@ public class MarkerSelectorActivity extends ActionBarActivity
                     .commit();
         }
         else if (level == 2) {
-            Bundle args = new Bundle();
-            args.putSerializable("Item", nowListFragment.mItems[position]);
+            ListFragment.ListItem item = nowListFragment.mItems[position];
 
-            setResult(1, new Intent().putExtras(args).setClass(
-                    MarkerSelectorActivity.this,
-                    MapsActivity.class
-            ));
+            if (item.isVirtual()) {
+                //不做任何事，因為使用者點到虛擬的項目
+            }
+            else {
+                Bundle args = new Bundle();
+                args.putSerializable("Item", item);
 
-            finish();
+                setResult(1, new Intent().putExtras(args).setClass(
+                        MarkerSelectorActivity.this,
+                        MapsActivity.class
+                ));
+
+                finish();
+            }
         }
     }
 }
