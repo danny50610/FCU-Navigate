@@ -32,6 +32,7 @@ import java.util.Map;
 
 import iecs.fcu_navigate.database.MarkerContract;
 import iecs.fcu_navigate.database.MarkerDBHelper;
+import iecs.fcu_navigate.helper.DictionaryHelper;
 
 public class MapsActivity extends ActionBarActivity
                           implements NavigationDrawerFragment.NavigationDrawerCallbacks,
@@ -40,12 +41,16 @@ public class MapsActivity extends ActionBarActivity
                                      GoogleMap.OnMarkerClickListener,
                                      LocationListener {
 
+    public static final int REQUEST_CODE_NAVIGATE = 2;
+
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
     private GoogleApiClient mGoogleApiClient;
 
     // Location請求物件
     private LocationRequest locationRequest;
+
+    private Location mLastLocation;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -83,10 +88,10 @@ public class MapsActivity extends ActionBarActivity
         navigateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent().setClass(
+                startActivityForResult(new Intent().setClass(
                         MapsActivity.this,
                         NavigateActivity.class
-                ));
+                ), REQUEST_CODE_NAVIGATE);
             }
         });
 
@@ -126,6 +131,23 @@ public class MapsActivity extends ActionBarActivity
 
                 gotoLocation(place);
             }
+        }
+        else if (requestCode == REQUEST_CODE_NAVIGATE && resultCode == 0) {
+            Bundle args = data.getExtras();
+            MarkerContract.Item origin = (MarkerContract.Item) args.getSerializable(NavigateActivity.Bundle_KEY_ORIGIN);
+            MarkerContract.Item destination = (MarkerContract.Item) args.getSerializable(NavigateActivity.Bundle_KEY_DESTINATION);
+
+            if (origin.equals(MarkerContract.ItemMyLocation)) {
+                origin.setLatitude(mLastLocation.getLatitude());
+                origin.setLongitude(mLastLocation.getLongitude());
+            }
+
+            if (destination.equals(MarkerContract.ItemMyLocation)) {
+                destination.setLatitude(mLastLocation.getLatitude());
+                destination.setLongitude(mLastLocation.getLongitude());
+            }
+
+            DictionaryHelper.startNavigate(mMap, origin, destination);
         }
         else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -266,9 +288,9 @@ public class MapsActivity extends ActionBarActivity
     }
 
     private void moveToLastKnownLocation() {
-        Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (lastLocation != null) {
-            gotoLocation(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null) {
+            gotoLocation(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
         }
     }
 

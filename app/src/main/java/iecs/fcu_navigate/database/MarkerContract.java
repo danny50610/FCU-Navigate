@@ -9,7 +9,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Map;
 
@@ -47,6 +46,8 @@ public final class MarkerContract {
             return true;
         }
     };
+
+    public static final Item ItemMyLocation = new Item("無", "無", "無",  0, 0.0, 0.0, "", null);
 
     public MarkerContract() {
     }
@@ -169,6 +170,14 @@ public final class MarkerContract {
             return longitude;
         }
 
+        public void setLongitude(double longitude) {
+            this.longitude = longitude;
+        }
+
+        public void setLatitude(double latitude) {
+            this.latitude = latitude;
+        }
+
         public String getImageName() {
             return image_name;
         }
@@ -191,6 +200,44 @@ public final class MarkerContract {
             values.put(MarkerEntry.COLUMN_NAME_CUSTOM, new Gson().toJson(this.customData));
 
             return values;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Item)) return false;
+
+            Item item = (Item) o;
+
+            if (floor != item.floor) return false;
+            if (Double.compare(item.latitude, latitude) != 0) return false;
+            if (Double.compare(item.longitude, longitude) != 0) return false;
+            if (category_name != null ? !category_name.equals(item.category_name) : item.category_name != null)
+                return false;
+            if (name != null ? !name.equals(item.name) : item.name != null) return false;
+            if (building_name != null ? !building_name.equals(item.building_name) : item.building_name != null)
+                return false;
+            if (image_name != null ? !image_name.equals(item.image_name) : item.image_name != null)
+                return false;
+            return !(customData != null ? !customData.equals(item.customData) : item.customData != null);
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result;
+            long temp;
+            result = category_name != null ? category_name.hashCode() : 0;
+            result = 31 * result + (name != null ? name.hashCode() : 0);
+            result = 31 * result + (building_name != null ? building_name.hashCode() : 0);
+            result = 31 * result + floor;
+            temp = Double.doubleToLongBits(latitude);
+            result = 31 * result + (int) (temp ^ (temp >>> 32));
+            temp = Double.doubleToLongBits(longitude);
+            result = 31 * result + (int) (temp ^ (temp >>> 32));
+            result = 31 * result + (image_name != null ? image_name.hashCode() : 0);
+            result = 31 * result + (customData != null ? customData.hashCode() : 0);
+            return result;
         }
 
         @Override

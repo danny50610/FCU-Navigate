@@ -15,9 +15,17 @@ import iecs.fcu_navigate.database.MarkerContract;
 
 public class NavigateActivity extends ActionBarActivity implements OnClickListener {
 
-    TextView mOriginName;
+    public static final String Bundle_KEY_ORIGIN = "origin";
 
-    TextView mDestinationName;
+    public static final String Bundle_KEY_DESTINATION = "destination";
+
+    private TextView mOriginName;
+
+    private TextView mDestinationName;
+
+    private MarkerContract.Item itemOrigin;
+
+    private MarkerContract.Item itemDestination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +40,7 @@ public class NavigateActivity extends ActionBarActivity implements OnClickListen
 
         findViewById(R.id.imageButton).setOnClickListener(this);
         findViewById(R.id.imageButton3).setOnClickListener(this);
+        findViewById(R.id.button2).setOnClickListener(this);
     }
 
     @Override
@@ -42,9 +51,12 @@ public class NavigateActivity extends ActionBarActivity implements OnClickListen
 
             if (requestCode == 0) {
                 mOriginName.setText(item.getName());
+                itemOrigin = item;
             }
             else if (requestCode == 1) {
                 mDestinationName.setText(item.getName());
+                itemDestination = item;
+
             }
         }
         else {
@@ -75,8 +87,8 @@ public class NavigateActivity extends ActionBarActivity implements OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.textView6:
             case R.id.textView7:
+            case R.id.textView8:
                 startActivityForResult(new Intent().setClass(
                         NavigateActivity.this,
                         MarkerSelectorActivity.class
@@ -84,11 +96,24 @@ public class NavigateActivity extends ActionBarActivity implements OnClickListen
                 break;
             case R.id.imageButton:
                 mOriginName.setText(getString(R.string.navigation_my_location));
+                itemOrigin = MarkerContract.ItemMyLocation;
                 break;
             case R.id.imageButton3:
                 mDestinationName.setText(getString(R.string.navigation_my_location));
+                itemDestination = MarkerContract.ItemMyLocation;
+                break;
+            case R.id.button2:
+                Bundle args = new Bundle();
+                args.putSerializable(Bundle_KEY_ORIGIN, itemOrigin);
+                args.putSerializable(Bundle_KEY_DESTINATION, itemDestination);
+
+                setResult(0, new Intent().putExtras(args).setClass(
+                        NavigateActivity.this,
+                        MapsActivity.class
+                ));
+                finish();
+
                 break;
         }
-
     }
 }
