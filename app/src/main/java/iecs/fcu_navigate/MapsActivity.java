@@ -132,7 +132,7 @@ public class MapsActivity extends ActionBarActivity
                 gotoLocation(place);
             }
         }
-        else if (requestCode == REQUEST_CODE_NAVIGATE && resultCode == 0) {
+        else if (requestCode == REQUEST_CODE_NAVIGATE && resultCode == 1) {
             Bundle args = data.getExtras();
             MarkerContract.Item origin = (MarkerContract.Item) args.getSerializable(NavigateActivity.Bundle_KEY_ORIGIN);
             MarkerContract.Item destination = (MarkerContract.Item) args.getSerializable(NavigateActivity.Bundle_KEY_DESTINATION);

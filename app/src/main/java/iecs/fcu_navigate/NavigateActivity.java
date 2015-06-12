@@ -107,7 +107,7 @@ public class NavigateActivity extends ActionBarActivity implements OnClickListen
                 args.putSerializable(Bundle_KEY_ORIGIN, itemOrigin);
                 args.putSerializable(Bundle_KEY_DESTINATION, itemDestination);
 
-                setResult(0, new Intent().putExtras(args).setClass(
+                setResult(1, new Intent().putExtras(args).setClass(
                         NavigateActivity.this,
                         MapsActivity.class
                 ));
