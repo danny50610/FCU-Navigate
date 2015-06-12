@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
@@ -16,6 +18,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +49,8 @@ public class DictionaryHelper {
     }
 
     private static class DownLoadDataTask extends AsyncTask<String, Void, String> {
+
+        private static ArrayList<Polyline> mPolylines = new ArrayList<>();
 
         private GoogleMap mMap;
 
@@ -106,7 +111,10 @@ public class DictionaryHelper {
                 lineOptions.width(10);  //導航路徑寬度
                 lineOptions.color(Color.BLUE); //導航路徑顏色
 
-                mMap.addPolyline(lineOptions);
+                for (Polyline polyline : mPolylines) {
+                    polyline.remove();
+                }
+                mPolylines.add(mMap.addPolyline(lineOptions));
             }
         }
 

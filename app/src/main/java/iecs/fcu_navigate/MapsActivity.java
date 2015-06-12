@@ -117,19 +117,10 @@ public class MapsActivity extends ActionBarActivity
             if (obj != null) {
                 MarkerContract.Item item = (MarkerContract.Item) obj;
 
-                for (Marker marker : mMarkers) {
-                    marker.remove();
-                }
-                mMarkers.clear();
+                clearAllMarker();
+                addMarker(item);
 
-                mMarkerInfos.clear();
-
-                LatLng place = new LatLng(item.getLatitude(), item.getLongitude());
-                Marker marker = mMap.addMarker(new MarkerOptions().position(place).title(item.getName()));
-                mMarkers.add(marker);
-                mMarkerInfos.put(marker.getId(), item);
-
-                gotoLocation(place);
+                gotoLocation(new LatLng(item.getLatitude(), item.getLongitude()));
             }
         }
         else if (requestCode == REQUEST_CODE_NAVIGATE && resultCode == 1) {
@@ -148,10 +139,32 @@ public class MapsActivity extends ActionBarActivity
             }
 
             DictionaryHelper.startNavigate(mMap, origin, destination);
+
+            clearAllMarker();
+            addMarker(destination);
         }
         else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    public void clearAllMarker() {
+        for (Marker marker : mMarkers) {
+            marker.remove();
+        }
+        mMarkers.clear();
+
+        mMarkerInfos.clear();
+    }
+
+    public void addMarker(MarkerContract.Item item) {
+        Marker marker = mMap.addMarker(
+                new MarkerOptions()
+                        .position(new LatLng(item.getLatitude(), item.getLongitude()))
+                        .title(item.getName())
+        );
+        mMarkers.add(marker);
+        mMarkerInfos.put(marker.getId(), item);
     }
 
     @Override
