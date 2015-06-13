@@ -124,6 +124,9 @@ public class MapsActivity extends ActionBarActivity
             }
         }
         else if (requestCode == REQUEST_CODE_NAVIGATE && resultCode == 1) {
+            clearAllMarker();
+            DictionaryHelper.DownLoadDataTask.clearAllPolylines();
+
             Bundle args = data.getExtras();
             MarkerContract.Item origin = (MarkerContract.Item) args.getSerializable(NavigateActivity.Bundle_KEY_ORIGIN);
             MarkerContract.Item destination = (MarkerContract.Item) args.getSerializable(NavigateActivity.Bundle_KEY_DESTINATION);
@@ -132,18 +135,19 @@ public class MapsActivity extends ActionBarActivity
                 origin.setLatitude(mLastLocation.getLatitude());
                 origin.setLongitude(mLastLocation.getLongitude());
             }
+            else {
+                addMarker(origin);
+            }
 
             if (destination.equals(MarkerContract.ItemMyLocation)) {
                 destination.setLatitude(mLastLocation.getLatitude());
                 destination.setLongitude(mLastLocation.getLongitude());
             }
+            else {
+                addMarker(destination);
+            }
 
             DictionaryHelper.startNavigate(mMap, origin, destination);
-
-            clearAllMarker();
-            addMarker(origin);
-            addMarker(destination);
-            DictionaryHelper.DownLoadDataTask.clearAllPolylines();
         }
         else {
             super.onActivityResult(requestCode, resultCode, data);
