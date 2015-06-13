@@ -5,8 +5,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -115,6 +117,16 @@ public class DictionaryHelper {
                     polyline.remove();
                 }
                 mPolylines.add(mMap.addPolyline(lineOptions));
+
+                Map<String, Double> northeast = (Map<String, Double>) ((Map) ((Map) ((List) data.get("routes")).get(0)).get("bounds")).get("northeast");
+                Map<String, Double> southwest = (Map<String, Double>) ((Map) ((Map) ((List) data.get("routes")).get(0)).get("bounds")).get("southwest");
+
+                LatLngBounds bounds = new LatLngBounds(
+                    new LatLng(southwest.get("lat"), southwest.get("lng")),
+                    new LatLng(northeast.get("lat"), northeast.get("lng"))
+                );
+
+                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
             }
         }
 
