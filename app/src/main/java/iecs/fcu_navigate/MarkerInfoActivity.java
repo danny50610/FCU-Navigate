@@ -57,6 +57,9 @@ public class MarkerInfoActivity extends ActionBarActivity {
                 new int[]{android.R.id.text1, android.R.id.text2}
         ));
         ListViewHelper.updateHeight(infoList);
+        //http://stackoverflow.com/questions/16886077/android-scrollview-doesnt-start-at-top-but-at-the-beginning-of-the-gridview
+        //關閉 infoList 的 Focusable，讓 Scroll View 不會被 infoList 往下拉
+        infoList.setFocusable(false);
 
         if (! item.getImageName().isEmpty()) {
             ImageView imageView = (ImageView) findViewById(R.id.imageView);
