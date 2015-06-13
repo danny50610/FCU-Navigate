@@ -141,6 +141,7 @@ public class MapsActivity extends ActionBarActivity
             DictionaryHelper.startNavigate(mMap, origin, destination);
 
             clearAllMarker();
+            addMarker(origin);
             addMarker(destination);
         }
         else {
