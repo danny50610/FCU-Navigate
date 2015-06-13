@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -56,6 +57,11 @@ public class MarkerInfoActivity extends ActionBarActivity {
                 new int[]{android.R.id.text1, android.R.id.text2}
         ));
         ListViewHelper.updateHeight(infoList);
+
+        if (! item.getImageName().isEmpty()) {
+            ImageView imageView = (ImageView) findViewById(R.id.imageView);
+            imageView.setImageResource(getResources().getIdentifier(item.getImageName(), "drawable", getPackageName()));
+        }
     }
 
     private String getFloorString(int floor) {
