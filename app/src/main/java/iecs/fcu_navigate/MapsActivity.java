@@ -143,6 +143,7 @@ public class MapsActivity extends ActionBarActivity
             clearAllMarker();
             addMarker(origin);
             addMarker(destination);
+            DictionaryHelper.DownLoadDataTask.clearAllPolylines();
         }
         else {
             super.onActivityResult(requestCode, resultCode, data);

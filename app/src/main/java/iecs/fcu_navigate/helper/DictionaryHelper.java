@@ -9,7 +9,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.common.collect.Lists;
@@ -50,9 +49,9 @@ public class DictionaryHelper {
         new DownLoadDataTask(mMap).execute(generateURL(origin, destination));
     }
 
-    private static class DownLoadDataTask extends AsyncTask<String, Void, String> {
+    public static class DownLoadDataTask extends AsyncTask<String, Void, String> {
 
-        private static ArrayList<Polyline> mPolylines = new ArrayList<>();
+        private static ArrayList<Polyline> polylines = new ArrayList<>();
 
         private GoogleMap mMap;
 
@@ -113,10 +112,8 @@ public class DictionaryHelper {
                 lineOptions.width(10);  //導航路徑寬度
                 lineOptions.color(Color.BLUE); //導航路徑顏色
 
-                for (Polyline polyline : mPolylines) {
-                    polyline.remove();
-                }
-                mPolylines.add(mMap.addPolyline(lineOptions));
+                clearAllPolylines();
+                polylines.add(mMap.addPolyline(lineOptions));
 
                 Map<String, Double> northeast = (Map<String, Double>) ((Map) ((Map) ((List) data.get("routes")).get(0)).get("bounds")).get("northeast");
                 Map<String, Double> southwest = (Map<String, Double>) ((Map) ((Map) ((List) data.get("routes")).get(0)).get("bounds")).get("southwest");
@@ -164,6 +161,12 @@ public class DictionaryHelper {
             }
 
             return point;
+        }
+
+        public static void clearAllPolylines() {
+            for (Polyline polyline : polylines) {
+                polyline.remove();
+            }
         }
     }
 }
