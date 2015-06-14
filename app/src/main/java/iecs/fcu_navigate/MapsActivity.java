@@ -3,11 +3,13 @@ package iecs.fcu_navigate;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -42,6 +44,8 @@ public class MapsActivity extends ActionBarActivity
                                      LocationListener {
 
     public static final int REQUEST_CODE_NAVIGATE = 2;
+
+    private static final int RQS_VOICE_RECOGNITION = 3;
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
@@ -149,6 +153,11 @@ public class MapsActivity extends ActionBarActivity
 
             DictionaryHelper.startNavigate(mMap, origin, destination);
         }
+        else if (requestCode == RQS_VOICE_RECOGNITION && resultCode == RESULT_OK) {
+            ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            String firstMatch = (String) result.get(0);
+            //Toast.makeText(this, firstMatch, Toast.LENGTH_SHORT).show();
+        }
         else {
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -191,6 +200,22 @@ public class MapsActivity extends ActionBarActivity
         // 移除Google API用戶端連線
         if (mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.voice_search) {
+            //http://androidbiancheng.blogspot.tw/2011/05/android-speech-recognition.html
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT,         "請開始說話");
+            startActivityForResult(intent, RQS_VOICE_RECOGNITION);
+
+            return true;
+        }
+        else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
