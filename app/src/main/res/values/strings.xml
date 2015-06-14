@@ -13,7 +13,7 @@
     <string name="title_activity_marker_selector">MarkerSelectorActivity</string>
 
     <string name="action_search">搜尋</string>
-    <string name="title_activity_marker_info">MarkerInfoActivity</string>
+    <string name="title_activity_marker_info">地點資訊</string>
 
     <!-- 側邊選單 -->
     <string name="menu_search">尋找地點</string>
