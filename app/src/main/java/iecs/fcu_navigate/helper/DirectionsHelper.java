@@ -28,7 +28,7 @@ import iecs.fcu_navigate.database.MarkerContract;
 /**
  * Google Dictionary Api Helper
  */
-public class DictionaryHelper {
+public class DirectionsHelper {
 
     private static String generateURL(MarkerContract.Item origin, MarkerContract.Item destination) {
         //https://maps.googleapis.com/maps/api/directions/json?

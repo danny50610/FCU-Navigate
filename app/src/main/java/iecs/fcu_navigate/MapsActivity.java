@@ -34,7 +34,7 @@ import java.util.Map;
 
 import iecs.fcu_navigate.database.MarkerContract;
 import iecs.fcu_navigate.database.MarkerDBHelper;
-import iecs.fcu_navigate.helper.DictionaryHelper;
+import iecs.fcu_navigate.helper.DirectionsHelper;
 
 public class MapsActivity extends ActionBarActivity
                           implements NavigationDrawerFragment.NavigationDrawerCallbacks,
@@ -129,7 +129,7 @@ public class MapsActivity extends ActionBarActivity
         }
         else if (requestCode == REQUEST_CODE_NAVIGATE && resultCode == 1) {
             clearAllMarker();
-            DictionaryHelper.DownLoadDataTask.clearAllPolylines();
+            DirectionsHelper.DownLoadDataTask.clearAllPolylines();
 
             Bundle args = data.getExtras();
             MarkerContract.Item origin = (MarkerContract.Item) args.getSerializable(NavigateActivity.Bundle_KEY_ORIGIN);
@@ -151,7 +151,7 @@ public class MapsActivity extends ActionBarActivity
                 addMarker(destination);
             }
 
-            DictionaryHelper.startNavigate(mMap, origin, destination);
+            DirectionsHelper.startNavigate(mMap, origin, destination);
         }
         else if (requestCode == RQS_VOICE_RECOGNITION && resultCode == RESULT_OK) {
             ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
