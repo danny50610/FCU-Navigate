@@ -157,6 +157,17 @@ public class MapsActivity extends ActionBarActivity
             ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             String firstMatch = (String) result.get(0);
             //Toast.makeText(this, firstMatch, Toast.LENGTH_SHORT).show();
+
+            MarkerContract.Item[] items = MarkerContract.getItemBySearch(MarkerDBHelper.instance, firstMatch);
+
+            Bundle args = new Bundle();
+            args.putSerializable(ListFragment.Bundle_KEY_ITEM_List, items);
+
+            startActivityForResult(new Intent().putExtras(args).setClass(
+                    MapsActivity.this,
+                    MarkerSelectorActivity.class
+            ), 1);
+
         }
         else {
             super.onActivityResult(requestCode, resultCode, data);

@@ -8,7 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
+
+import java.util.Arrays;
 
 import iecs.fcu_navigate.database.CategoryContract;
 import iecs.fcu_navigate.database.MarkerContract;
@@ -23,16 +24,36 @@ public class MarkerSelectorActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marker_selector);
 
-        Bundle args = new Bundle();
-        args.putInt(ListFragment.Bundle_KEY_LISTVIEW_LEVEL, 1);
-        args.putSerializable(ListFragment.Bundle_KEY_ITEM_List, CategoryContract.getAllCategoryName(MarkerDBHelper.instance));
+        Bundle receiveArgs = getIntent().getExtras();
+        if (receiveArgs != null) {
+            //TODO: old Bug. http://stackoverflow.com/a/28720450/4983032
+            Object[] objs = (Object[]) receiveArgs.getSerializable(ListFragment.Bundle_KEY_ITEM_List);
+            MarkerContract.Item[] items = Arrays.copyOf(objs, objs.length, MarkerContract.Item[].class);
 
-        ListFragment listFragment = new ListFragment();
-        listFragment.setArguments(args);
+            Bundle args = new Bundle();
+            args.putInt(ListFragment.Bundle_KEY_LISTVIEW_LEVEL, 2);
+            args.putSerializable(ListFragment.Bundle_KEY_ITEM_List, items);
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_list, listFragment)
-                .commit();
+            ListFragment listFragment = new ListFragment();
+            listFragment.setArguments(args);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_list, listFragment)
+                    .commit();
+
+        }
+        else {
+            Bundle args = new Bundle();
+            args.putInt(ListFragment.Bundle_KEY_LISTVIEW_LEVEL, 1);
+            args.putSerializable(ListFragment.Bundle_KEY_ITEM_List, CategoryContract.getAllCategoryName(MarkerDBHelper.instance));
+
+            ListFragment listFragment = new ListFragment();
+            listFragment.setArguments(args);
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_list, listFragment)
+                    .commit();
+        }
     }
 
     @Override

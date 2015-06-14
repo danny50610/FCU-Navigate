@@ -62,9 +62,9 @@ public final class CategoryContract {
     public static long getID(SQLiteDatabase db, String name) {
         Cursor c = db.query(
                 CategoryEntry.TABLE_NAME,                                          //table
-                new String[] {CategoryEntry._ID, CategoryEntry.COLUMN_NAME_NAME},  //columns
+                new String[]{CategoryEntry._ID, CategoryEntry.COLUMN_NAME_NAME},  //columns
                 CategoryEntry.COLUMN_NAME_NAME + "= ?",                            //selection
-                new String[] {name},                                               //selectionArgs
+                new String[]{name},                                               //selectionArgs
                 null,                                                              //groupBy
                 null,                                                              //having
                 CategoryEntry._ID + " ASC"                                         //orderBy
@@ -73,6 +73,26 @@ public final class CategoryContract {
         long result = 0;
         if (c.moveToFirst()) {
             result = c.getInt(c.getColumnIndexOrThrow(CategoryEntry._ID));
+        }
+        c.close();
+
+        return result;
+    }
+
+    public static String getNameById(SQLiteDatabase db, long id) {
+        Cursor c = db.query(
+                CategoryEntry.TABLE_NAME,                     //table
+                new String[]{CategoryEntry.COLUMN_NAME_NAME}, //columns
+                CategoryEntry._ID + "= ?",                    //selection
+                new String[] {Long.toString(id)},             //selectionArgs
+                null,                                         //groupBy
+                null,                                         //having
+                CategoryEntry._ID + " ASC"                    //orderBy
+        );
+
+        String result = "";
+        if (c.moveToFirst()) {
+            result = c.getString(c.getColumnIndexOrThrow(CategoryEntry.COLUMN_NAME_NAME));
         }
         c.close();
 

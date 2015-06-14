@@ -103,6 +103,40 @@ public final class MarkerContract {
         return result;
     }
 
+    public static Item[] getItemBySearch(MarkerDBHelper dbHelper, String search) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        //http://www.grokkingandroid.com/how-to-correctly-use-sqls-like-in-android/
+        Cursor c = db.query(
+                MarkerEntry.TABLE_NAME,                                                   //table
+                null,                                                                     //columns
+                MarkerEntry.COLUMN_NAME_NAME + " like ?",                                     //selection
+                new String[]{"%" + search + "%"},                                       //selectionArgs
+                null,                                                                     //groupBy
+                null,                                                                     //having
+                MarkerEntry._ID + " ASC"                                                  //orderBy
+        );
+
+        int i = 0;
+        Item[] result = new Item[c.getCount()];
+        Type stringStringMap = new TypeToken<Map<String, String>>(){}.getType();
+        while (c.moveToNext()) {
+            result[i++] = new Item(
+                    CategoryContract.getNameById(db, c.getLong(1)),
+                    c.getString(2),
+                    BuildingContract.getNamebyId(db, c.getLong(3)),
+                    c.getInt(4),
+                    c.getDouble(5),
+                    c.getDouble(6),
+                    c.getString(7),
+                    (Map<String, String>) new Gson().fromJson(c.getString(8), stringStringMap)
+            );
+        }
+        c.close();
+
+        return result;
+    }
+
     public static abstract class MarkerEntry implements BaseColumns {
         public static final String TABLE_NAME = "marker";
         public static final String COLUMN_NAME_CATEGORY_ID = "category_id";
