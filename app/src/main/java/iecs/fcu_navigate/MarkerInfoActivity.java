@@ -26,6 +26,10 @@ public class MarkerInfoActivity extends ActionBarActivity {
 
     private static final String Item_VALUE = "value";
 
+    private static final Map<String, String > titleMap = ImmutableMap.of(
+            MarkerContract.MarkerEntry.CUSTOM_KEY_CLASS_NAME, "教室編號"
+    );
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +52,10 @@ public class MarkerInfoActivity extends ActionBarActivity {
         data.add(ImmutableMap.of(Item_TITLE, "名稱", Item_VALUE, item.getName()));
         data.add(ImmutableMap.of(Item_TITLE, "位置", Item_VALUE, item.getBuildingName() + " " + getFloorString(item.getFloor())));
         data.add(ImmutableMap.of(Item_TITLE, "經緯度", Item_VALUE, String.format("%f, %f", item.getLatitude(), item.getLongitude())));
+
+        for (Map.Entry<String, String> customData : item.getCustomData().entrySet()) {
+            data.add(ImmutableMap.of(Item_TITLE, titleMap.get(customData.getKey()), Item_VALUE, customData.getValue()));
+        }
 
         infoList.setAdapter(new SimpleAdapter(
                 this,
