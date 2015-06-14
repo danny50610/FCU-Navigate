@@ -108,13 +108,13 @@ public final class MarkerContract {
 
         //http://www.grokkingandroid.com/how-to-correctly-use-sqls-like-in-android/
         Cursor c = db.query(
-                MarkerEntry.TABLE_NAME,                                                   //table
-                null,                                                                     //columns
-                MarkerEntry.COLUMN_NAME_NAME + " like ?",                                     //selection
-                new String[]{"%" + search + "%"},                                       //selectionArgs
-                null,                                                                     //groupBy
-                null,                                                                     //having
-                MarkerEntry._ID + " ASC"                                                  //orderBy
+                MarkerEntry.TABLE_NAME,                     //table
+                null,                                       //columns
+                MarkerEntry.COLUMN_NAME_NAME + " like ?",   //selection
+                new String[]{"%" + search + "%"},           //selectionArgs
+                null,                                       //groupBy
+                null,                                       //having
+                MarkerEntry._ID + " ASC"                    //orderBy
         );
 
         int i = 0;
