@@ -54,15 +54,15 @@ public final class MarkerContract {
 
     public static void insertDefaultData(SQLiteDatabase db) {
         Item[] markers = new Item[] {
-            new Item("演講廳", "第一國際會議廳", "丘逢甲紀念館",  2, 24.178355, 120.648098, "", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
-            new Item("演講廳", "第二國際會議廳", "丘逢甲紀念館",  3, 24.178351, 120.647988, "", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
-            new Item("演講廳", "第三國際會議廳", "資訊電機館"  ,  2, 24.179299, 120.649739, "", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
+            new Item("演講廳", "第一國際會議廳", "丘逢甲紀念館",  2, 24.178355, 120.648098, "meeting_place_1", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
+            new Item("演講廳", "第二國際會議廳", "丘逢甲紀念館",  3, 24.178351, 120.647988, "meeting_place_2", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
+            new Item("演講廳", "第三國際會議廳", "資訊電機館"  ,  2, 24.179299, 120.649739, "meeting_place_3", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
             new Item("演講廳", "第四國際會議廳", "人言大樓"    , -1, 24.179148, 120.648465, "meeting_place_4", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
-            new Item("演講廳", "第五國際會議廳", "人言大樓"    , -1, 24.179149, 120.648647, "", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
-            new Item("演講廳", "第六國際會議廳", "人言大樓"    , -1, 24.179150, 120.648811, "", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
-            new Item("演講廳", "第七國際會議廳", "人言大樓"    , -1, 24.179310, 120.648889, "", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
-            new Item("演講廳", "第八國際會議廳", "商學大樓"    ,  8, 24.178406, 120.649825, "", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
-            new Item("演講廳", "第九國際會議廳", "學思樓"      ,  2, 24.181397, 120.646697, "", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
+            new Item("演講廳", "第五國際會議廳", "人言大樓"    , -1, 24.179149, 120.648647, "meeting_place_5", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
+            new Item("演講廳", "第六國際會議廳", "人言大樓"    , -1, 24.179150, 120.648811, "meeting_place_6", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
+            new Item("演講廳", "第七國際會議廳", "人言大樓"    , -1, 24.179310, 120.648889, "meeting_place_7", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
+            new Item("演講廳", "第八國際會議廳", "商學大樓"    ,  8, 24.178406, 120.649825, "meeting_place_8", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
+            new Item("演講廳", "第九國際會議廳", "學思樓"      ,  2, 24.181397, 120.646697, "meeting_place_9", ImmutableMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
         };
 
         for (Item marker : markers) {
