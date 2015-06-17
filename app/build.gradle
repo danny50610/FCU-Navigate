@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+project.archivesBaseName = "FCU-Navigate"
+
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
@@ -32,6 +34,18 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+        }
+    }
+
+    applicationVariants.all { variant ->
+        if (variant.name == 'release') {
+            variant.outputs.each { output ->
+                def buildNumber = System.getenv("BUILD_NUMBER") ?: "dev"
+                def outputFile = output.outputFile
+                output.outputFile = new File(
+                        outputFile.parent, project.archivesBaseName + '-' + defaultConfig.versionName + '.' + buildNumber + '.apk'
+                )
+            }
         }
     }
 }
