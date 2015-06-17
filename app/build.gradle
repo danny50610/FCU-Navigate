@@ -14,10 +14,10 @@ android {
 
     signingConfigs {
         release {
-            File releasekeySettings = new File(".keystore/settings.properties")
-            if(releasekeySettings.exists()) {
+            File releaseKeySettings = new File(".keystore/settings.properties")
+            if(releaseKeySettings.exists()) {
                 Properties keyProps = new Properties()
-                keyProps.load(new FileInputStream(releasekeySettings))
+                keyProps.load(new FileInputStream(releaseKeySettings))
 
                 storeFile file(keyProps['storeFilePath'])
                 storePassword keyProps['storePassword']
