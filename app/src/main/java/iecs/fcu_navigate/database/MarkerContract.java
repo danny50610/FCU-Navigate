@@ -64,6 +64,8 @@ public final class MarkerContract {
             new Item("演講廳", "第七國際會議廳", "人言大樓"    , -1, 24.179310, 120.648889, "meeting_place_7", ImmutableSortedMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
             new Item("演講廳", "第八國際會議廳", "商學大樓"    ,  8, 24.178406, 120.649825, "meeting_place_8", ImmutableSortedMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
             new Item("演講廳", "第九國際會議廳", "學思樓"      ,  2, 24.181397, 120.646697, "meeting_place_9", ImmutableSortedMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
+            //販賣機 - 資電館
+            new Item("自動販賣機", "飲料販賣機", "資訊電機館", 1, 24.179303, 120.649556, "vending_machine_01", ImmutableSortedMap.of(MarkerEntry.CUSTOM_KEY_CAN_USE_EASY_WALLET, "否", MarkerEntry.CUSTOM_KEY_CAN_USE_BANKNOTES, "否")),
         };
 
         for (Item marker : markers) {
