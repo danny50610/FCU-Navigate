@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.Map;
+import java.util.SortedMap;
 
 import iecs.fcu_navigate.ListFragment;
 
@@ -85,7 +86,7 @@ public final class MarkerContract {
 
         int i = 0;
         Item[] result = new Item[c.getCount()];
-        Type stringStringMap = new TypeToken<Map<String, String>>(){}.getType();
+        Type stringStringMap = new TypeToken<SortedMap<String, String>>(){}.getType();
         while (c.moveToNext()) {
             result[i++] = new Item(
                     categoryName,
