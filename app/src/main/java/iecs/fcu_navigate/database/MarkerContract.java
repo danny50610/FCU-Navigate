@@ -150,6 +150,8 @@ public final class MarkerContract {
         public static final String COLUMN_NAME_CUSTOM = "custom";
 
         public static final String CUSTOM_KEY_CLASS_NAME = "class_name";
+        public static final String CUSTOM_KEY_CAN_USE_EASY_WALLET = "can_use_easy_wallet";
+        public static final String CUSTOM_KEY_CAN_USE_BANKNOTES = "can_use_banknotes";
     }
 
     public static class Item implements ListFragment.ListItem {

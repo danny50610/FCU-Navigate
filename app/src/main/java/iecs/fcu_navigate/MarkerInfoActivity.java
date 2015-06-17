@@ -27,7 +27,9 @@ public class MarkerInfoActivity extends ActionBarActivity {
     private static final String Item_VALUE = "value";
 
     private static final Map<String, String > titleMap = ImmutableMap.of(
-            MarkerContract.MarkerEntry.CUSTOM_KEY_CLASS_NAME, "教室編號"
+            MarkerContract.MarkerEntry.CUSTOM_KEY_CLASS_NAME, "教室編號",
+            MarkerContract.MarkerEntry.CUSTOM_KEY_CAN_USE_EASY_WALLET, "是否接受優遊卡",
+            MarkerContract.MarkerEntry.CUSTOM_KEY_CAN_USE_BANKNOTES, "是否接受紙鈔"
     );
 
     @Override
