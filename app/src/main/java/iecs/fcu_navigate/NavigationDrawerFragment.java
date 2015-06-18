@@ -85,7 +85,6 @@ public class NavigationDrawerFragment extends Fragment {
                 android.R.id.text1,
                 new String[]{
                         getString(R.string.menu_search),
-                        getString(R.string.menu_history),
                         getString(R.string.menu_goto_fcu),
                 }));
         return mDrawerListView;

@@ -322,9 +322,6 @@ public class MapsActivity extends ActionBarActivity
                 switchToSelectActivity();
                 break;
             case 1:
-
-                break;
-            case 2:
                 //前往逢甲
                 gotoLocation(new LatLng(24.179916, 120.648304));
                 break;
