@@ -58,7 +58,7 @@ public class MarkerSelectorActivity extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.marker_selector, menu);
+        getMenuInflater().inflate(R.menu.menu_nothing, menu);
         restoreActionBar();
         return true;
     }
