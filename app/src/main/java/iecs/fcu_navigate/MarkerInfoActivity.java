@@ -52,7 +52,7 @@ public class MarkerInfoActivity extends ActionBarActivity {
 
         ArrayList<Map<String, String>> data = Lists.newArrayList();
         data.add(ImmutableMap.of(Item_TITLE, "名稱", Item_VALUE, item.getName()));
-        data.add(ImmutableMap.of(Item_TITLE, "位置", Item_VALUE, item.getBuildingName() + " " + getFloorString(item.getFloor())));
+        data.add(ImmutableMap.of(Item_TITLE, "位置", Item_VALUE, item.getBuildInfo()));
         data.add(ImmutableMap.of(Item_TITLE, "經緯度", Item_VALUE, String.format("%f, %f", item.getLatitude(), item.getLongitude())));
 
         for (Map.Entry<String, String> customData : item.getCustomData().entrySet()) {
@@ -74,18 +74,6 @@ public class MarkerInfoActivity extends ActionBarActivity {
         if (! item.getImageName().isEmpty()) {
             ImageView imageView = (ImageView) findViewById(R.id.imageView);
             imageView.setImageResource(getResources().getIdentifier(item.getImageName(), "drawable", getPackageName()));
-        }
-    }
-
-    private String getFloorString(int floor) {
-        if (floor > 0) {
-            return floor + "F";
-        }
-        else if (floor < 0) {
-            return "B" + floor * -1;
-        }
-        else {
-            return "";
         }
     }
 

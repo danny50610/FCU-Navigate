@@ -9,8 +9,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
+
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Map;
 
 import iecs.fcu_navigate.database.MarkerContract;
 
@@ -19,6 +25,10 @@ public class ListFragment extends Fragment {
     public static final String Bundle_KEY_LISTVIEW_LEVEL = "ListView_Level";
 
     public static final String Bundle_KEY_ITEM_List = "ItemList";
+
+    private static final String Item_Name = "name";
+
+    private static final String Item_LOCATION = "location";
 
     private onItemClickCallBacks mCallback;
 
@@ -43,10 +53,29 @@ public class ListFragment extends Fragment {
             mItems = new MarkerContract.Item[]{MarkerContract.ItemNothing};
         }
 
-        ArrayAdapter<ListItem> adapter =
-                new ArrayAdapter<ListItem>(getActivity(),
-                        android.R.layout.simple_list_item_1, mItems);
-        listView.setAdapter(adapter);
+        if (level == 1) {
+            ArrayAdapter<ListItem> adapter =
+                    new ArrayAdapter<ListItem>(getActivity(),
+                            android.R.layout.simple_list_item_1, mItems);
+            listView.setAdapter(adapter);
+        }
+        else if (level == 2 && mItems instanceof MarkerContract.Item[]){
+            MarkerContract.Item[] markers = (MarkerContract.Item[]) mItems;
+
+            ArrayList<Map<String, String>> data = Lists.newArrayList();
+
+            for (MarkerContract.Item marker : markers) {
+                data.add(ImmutableMap.of(Item_Name, marker.getName(), Item_LOCATION, marker.getBuildInfo()));
+            }
+
+            listView.setAdapter(new SimpleAdapter(
+                    getActivity(),
+                    data,
+                    android.R.layout.simple_list_item_2,
+                    new String[]{Item_Name, Item_LOCATION},
+                    new int[]{android.R.id.text1, android.R.id.text2}
+            ));
+        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -283,5 +283,21 @@ public final class MarkerContract {
         public String toString() {
             return this.name;
         }
+
+        public String getBuildInfo() {
+            return this.getBuildingName() + " " + getFloorString(this.getFloor());
+        }
+
+        private String getFloorString(int floor) {
+            if (floor > 0) {
+                return floor + "F";
+            }
+            else if (floor < 0) {
+                return "B" + floor * -1;
+            }
+            else {
+                return "";
+            }
+        }
     }
 }
