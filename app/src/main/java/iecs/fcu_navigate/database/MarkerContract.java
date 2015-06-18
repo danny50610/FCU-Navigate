@@ -64,8 +64,19 @@ public final class MarkerContract {
             new Item("演講廳", "第七國際會議廳", "人言大樓"    , -1, 24.179310, 120.648889, "meeting_place_7", ImmutableSortedMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
             new Item("演講廳", "第八國際會議廳", "商學大樓"    ,  8, 24.178406, 120.649825, "meeting_place_8", ImmutableSortedMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
             new Item("演講廳", "第九國際會議廳", "學思樓"      ,  2, 24.181397, 120.646697, "meeting_place_9", ImmutableSortedMap.of(MarkerEntry.CUSTOM_KEY_CLASS_NAME, "")),
-            //販賣機 - 資電館
-            new Item("自動販賣機", "飲料販賣機", "資訊電機館", 1, 24.179303, 120.649556, "vending_machine_01", ImmutableSortedMap.of(MarkerEntry.CUSTOM_KEY_CAN_USE_EASY_WALLET, "否", MarkerEntry.CUSTOM_KEY_CAN_USE_BANKNOTES, "否")),
+            //販賣機 - 資訊電機館
+            new Item("自動販賣機", "飲料販賣機", "資訊電機館"  , 1, 24.179303, 120.649556, "vending_machine_01", ImmutableSortedMap.of(MarkerEntry.CUSTOM_KEY_CAN_USE_EASY_WALLET, "否", MarkerEntry.CUSTOM_KEY_CAN_USE_BANKNOTES, "否")),
+            new Item("自動販賣機", "飲料販賣機", "資訊電機館"  , 1, 24.179323, 120.649560, "vending_machine_02", ImmutableSortedMap.of(MarkerEntry.CUSTOM_KEY_CAN_USE_EASY_WALLET, "是", MarkerEntry.CUSTOM_KEY_CAN_USE_BANKNOTES, "是")),
+            //販賣機 - 科學與航太館
+            new Item("自動販賣機", "飲料販賣機", "科學與航太館", 1, 24.178213, 120.648773, "vending_machine_03", ImmutableSortedMap.of(MarkerEntry.CUSTOM_KEY_CAN_USE_EASY_WALLET, "是", MarkerEntry.CUSTOM_KEY_CAN_USE_BANKNOTES, "是")),
+            new Item("自動販賣機", "飲料販賣機", "科學與航太館", 1, 24.178222, 120.648773, "vending_machine_04", ImmutableSortedMap.of(MarkerEntry.CUSTOM_KEY_CAN_USE_EASY_WALLET, "否", MarkerEntry.CUSTOM_KEY_CAN_USE_BANKNOTES, "是")),
+            new Item("自動販賣機", "飲料販賣機", "科學與航太館", 1, 24.178234, 120.648773, "vending_machine_05", ImmutableSortedMap.of(MarkerEntry.CUSTOM_KEY_CAN_USE_EASY_WALLET, "否", MarkerEntry.CUSTOM_KEY_CAN_USE_BANKNOTES, "否")),
+            //販賣機 - 工學院
+            new Item("自動販賣機", "飲料販賣機", "工學院"      , 1, 24.179135, 120.647550, "vending_machine_06", ImmutableSortedMap.of(MarkerEntry.CUSTOM_KEY_CAN_USE_EASY_WALLET, "否", MarkerEntry.CUSTOM_KEY_CAN_USE_BANKNOTES, "否")),
+            new Item("自動販賣機", "飲料販賣機", "工學院"      , 1, 24.179141, 120.647574, "vending_machine_07", ImmutableSortedMap.of(MarkerEntry.CUSTOM_KEY_CAN_USE_EASY_WALLET, "否", MarkerEntry.CUSTOM_KEY_CAN_USE_BANKNOTES, "否")),
+            //販賣機 - 忠勤樓
+            new Item("自動販賣機", "飲料販賣機", "忠勤樓"      , 1, 24.179081, 120.646769, "vending_machine_08", ImmutableSortedMap.of(MarkerEntry.CUSTOM_KEY_CAN_USE_EASY_WALLET, "否", MarkerEntry.CUSTOM_KEY_CAN_USE_BANKNOTES, "否")),
+            new Item("自動販賣機", "飲料販賣機", "忠勤樓"      , 1, 24.179161, 120.647145, "vending_machine_09", ImmutableSortedMap.of(MarkerEntry.CUSTOM_KEY_CAN_USE_EASY_WALLET, "否", MarkerEntry.CUSTOM_KEY_CAN_USE_BANKNOTES, "否")),
         };
 
         for (Item marker : markers) {
