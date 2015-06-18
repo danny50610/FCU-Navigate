@@ -86,6 +86,7 @@ public class NavigationDrawerFragment extends Fragment {
                 new String[]{
                         getString(R.string.menu_search),
                         getString(R.string.menu_goto_fcu),
+                        getString(R.string.title_activity_about_me),
                 }));
         return mDrawerListView;
     }

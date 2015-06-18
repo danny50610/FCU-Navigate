@@ -325,6 +325,12 @@ public class MapsActivity extends ActionBarActivity
                 //前往逢甲
                 gotoLocation(new LatLng(24.179916, 120.648304));
                 break;
+            case 2:
+                startActivity(new Intent().setClass(
+                        MapsActivity.this,
+                        AboutMeActivity.class
+                ));
+                break;
         }
     }
 

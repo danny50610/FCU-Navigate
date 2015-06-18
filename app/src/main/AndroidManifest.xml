@@ -48,6 +48,10 @@
             android:name=".NavigateActivity"
             android:label="@string/title_activity_navigate" >
         </activity>
+        <activity
+            android:name=".AboutMeActivity"
+            android:label="@string/title_activity_about_me" >
+        </activity>
     </application>
 
 </manifest>

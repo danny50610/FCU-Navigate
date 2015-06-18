@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 project.archivesBaseName = "FCU-Navigate"
+def buildNumber = System.getenv("BUILD_NUMBER") ?: "dev"
 
 android {
     compileSdkVersion 21
@@ -11,7 +12,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 21
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.$buildNumber"
     }
 
     signingConfigs {
@@ -40,10 +41,9 @@ android {
     applicationVariants.all { variant ->
         if (variant.name == 'release') {
             variant.outputs.each { output ->
-                def buildNumber = System.getenv("BUILD_NUMBER") ?: "dev"
                 def outputFile = output.outputFile
                 output.outputFile = new File(
-                        outputFile.parent, project.archivesBaseName + '-' + defaultConfig.versionName + '.' + buildNumber + '.apk'
+                        outputFile.parent, project.archivesBaseName + '-' + defaultConfig.versionName + '.apk'
                 )
             }
         }

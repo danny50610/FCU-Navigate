@@ -27,4 +27,12 @@
     <string name="navigation_startProcess">開始導航</string>
     <string name="navigation_my_location">目前位置</string>
 
+    <!-- 關於我 -->
+    <string name="title_activity_about_me">關於</string>
+    <string name="AboutMeText">
+        「逢甲導航」是逢甲大學 1032 進階物件導向程式設計期末專題。\n
+        Github：\n
+        https://github.com/danny50610/FCU-Navigate
+    </string>
+
 </resources>
